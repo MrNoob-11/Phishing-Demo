@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smart_runner"
+version = "0.1.0"
+description = "An automated orchestrator for Flask and Cloudflare tunnels"
+authors = [
+    { name = "Mo" }
+]
+requires-python = ">=3.7"
+
+[project.scripts]
+run-demo = "smart_runner:main"
+launch-web ="app:start_server"

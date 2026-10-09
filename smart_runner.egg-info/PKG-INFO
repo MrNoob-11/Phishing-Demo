@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: smart_runner
+Version: 0.1.0
+Summary: An automated orchestrator for Flask and Cloudflare tunnels
+Author: Mo
+Requires-Python: >=3.7

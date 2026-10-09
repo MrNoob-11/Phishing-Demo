@@ -1,0 +1,3 @@
+[console_scripts]
+launch-web = app:start_server
+run-demo = smart_runner:main

@@ -1,0 +1,167 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Awareness Demo</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  font-family: Arial, sans-serif;
+  color: #202124;
+  background: white;
+}
+
+.card {
+  width: min(450px, 100%);
+  padding: 40px;
+  border: 1px solid #dadce0;
+  border-radius: 28px;
+}
+
+.logo {
+  font-size: 29px;
+  font-weight: 600;
+  letter-spacing: -2px;
+  margin-bottom: 22px;
+}
+
+.b { color: #4285f4; }
+.r { color: #ea4335; }
+.y { color: #fbbc05; }
+.g { color: #34a853; }
+
+h1 { font-size: 24px; font-weight: 400; }
+
+.notice {
+  margin: 20px 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff4ce;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+label {
+  display: block;
+  margin: 18px 0 7px;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 14px 12px;
+  border: 1px solid #747775;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+input:focus { outline: 2px solid #0b57d0; }
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+button {
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 24px;
+  color: white;
+  background: #0b57d0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#result { font-size: 14px; line-height: 1.5; }
+footer { margin-top: 24px; font-size: 12px; color: #5f6368; }
+</style>
+</head>
+
+<body>
+<main class="card">
+  <div class="logo">
+    <span class="b">G</span><span class="r">o</span><span class="y">o</span><span class="b">g</span><span class="g">l</span><span class="r">e</span>
+  </div>
+
+  <h1>Sign in</h1>
+  <p>Security awareness demonstration</p>
+
+  <div class="notice">
+    <strong>TRAINING SIMULATION</strong><br>
+    This is a fictional, Google-inspired page.
+    Use invented test data only.
+  </div>
+
+  <form id="demo">
+    <label for="username">Email or username</label>
+    <input id="username" type="text" maxlength="254"
+           autocomplete="off" placeholder="Demo email" required>
+
+    <label for="password">Password</label>
+    <input id="password" type="password"
+           autocomplete="new-password"
+           placeholder="Made-up password" required>
+
+    <div class="actions">
+      <button id="submit" type="submit">Run demo</button>
+    </div>
+  </form>
+
+  <p id="result" role="status"></p>
+  <footer>Security Lab · Educational project</footer>
+</main>
+
+<script>
+document.querySelector("#demo").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const email = document.querySelector("#username").value.trim();
+  const result = document.querySelector("#result");
+  const button = document.querySelector("#submit");
+
+  if (!email) {
+    result.textContent = "Enter an email.";
+    return;
+  }
+
+  if (!confirm(
+    "Please enter your log in. " +
+    "Continue?"
+  )) return;
+
+  button.disabled = true;
+  result.textContent = "Recording demonstration…";
+
+  try {
+    const response = await fetch("/simulate", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        event: "demo-submit",
+        email: email
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error("Request failed");
+
+    result.textContent = data.message;
+  } catch {
+    result.textContent = "Could not reach the demo server.";
+  } finally {
+    button.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
