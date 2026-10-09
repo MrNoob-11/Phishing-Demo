@@ -17,7 +17,8 @@ dependencies = [
 [project.scripts]
 run-demo = "smart_runner:main"
 launch-web = "app:start_server"
+view-logs = "view_database:display_logs"
 
 [tool.setuptools]
-py-modules = ["smart_runner", "app"]
+py-modules = ["smart_runner", "app", "view_database"]
 

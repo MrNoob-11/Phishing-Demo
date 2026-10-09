@@ -1,3 +1,4 @@
 [console_scripts]
 launch-web = app:start_server
 run-demo = smart_runner:main
+view-logs = view_database:display_logs
