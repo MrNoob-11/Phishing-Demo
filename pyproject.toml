@@ -10,7 +10,14 @@ authors = [
     { name = "Mo" }
 ]
 requires-python = ">=3.7"
+dependencies = [
+    "flask>=3.0.0"
+]
 
 [project.scripts]
 run-demo = "smart_runner:main"
-launch-web ="app:start_server"
+launch-web = "app:start_server"
+
+[tool.setuptools]
+py-modules = ["smart_runner", "app"]
+

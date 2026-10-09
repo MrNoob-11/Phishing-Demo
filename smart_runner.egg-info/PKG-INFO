@@ -4,3 +4,4 @@ Version: 0.1.0
 Summary: An automated orchestrator for Flask and Cloudflare tunnels
 Author: Mo
 Requires-Python: >=3.7
+Requires-Dist: flask>=3.0.0

@@ -1,1 +1,2 @@
-templates
+app
+smart_runner
