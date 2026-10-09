@@ -3,11 +3,12 @@ import sqlite3
 
 def display_logs():
     """Queries the SQLite local database file and prints out all logs cleanly."""
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    db_path = os.path.join(base_dir, "demo_database.db")
+    # **THE FIX**: Hardcode your absolute workspace directory path match
+    project_dir = os.path.expanduser("~/Desktop/PhishingDemoFresh")
+    db_path = os.path.join(project_dir, "demo_database.db")
     
     if not os.path.exists(db_path):
-        print("\n[DATABASE] No database file found yet. Submit a test form first!\n")
+        print(f"\n[DATABASE] No database file found at: {db_path}\n")
         return
 
     conn = sqlite3.connect(db_path)
